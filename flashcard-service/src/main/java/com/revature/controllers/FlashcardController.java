@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.messaging.FlashcardEvent;
+import com.revature.messaging.MessageService;
+import com.revature.messaging.Operation;
 import com.revature.models.Flashcard;
 import com.revature.repositories.FlashcardRepository;
 
@@ -26,6 +30,9 @@ public class FlashcardController {
 
 	@Autowired
 	private Environment env;
+	
+	@Autowired
+	private MessageService messagingService;
 
 	@GetMapping("/port")
 	public String getPort() {
@@ -81,6 +88,8 @@ public class FlashcardController {
 
 		if (option.isPresent()) {
 			flashcardDao.delete(option.get());
+			FlashcardEvent event = new FlashcardEvent(Operation.DELETE, option.get(), LocalDateTime.now());
+			messagingService.triggerEvent(event);
 			return ResponseEntity.accepted().body(option.get());
 		}
 
