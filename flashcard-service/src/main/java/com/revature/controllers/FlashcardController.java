@@ -52,8 +52,7 @@ public class FlashcardController {
 	
 	@PostMapping
 	public ResponseEntity<Flashcard> insert(@RequestBody Flashcard flashcard) {
-		int id = flashcard.getId();
-		
+		int id = flashcard.getId();		
 		if(id != 0) {
 			return ResponseEntity.badRequest().build();
 		}

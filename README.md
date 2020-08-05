@@ -34,3 +34,5 @@ The downloaded executable must be applied to the IDE in use, just direct it to t
 ![Image of the lombok executable](./images/lombok-install.PNG)
 
 Then make sure to restart the IDE for Lombok to be successfully applied.
+
+Updated by Nick Jurczak 8/5/20
