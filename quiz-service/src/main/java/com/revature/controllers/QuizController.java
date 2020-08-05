@@ -76,4 +76,20 @@ public class QuizController {
 		
 		return ResponseEntity.ok(all);
 	}
+	
+	@GetMapping("/cards/{id}")
+	public ResponseEntity<List<Flashcard>> getCardsFromQuiz(@PathVariable("id") int id) {
+		Optional<Quiz> optional = this.quizDao.findById(id);
+		
+		if (optional.isPresent()) {
+			//return flashcards
+			List<Integer> ids = optional.get().getCards();
+			List<Flashcard> cards = this.flashcardClient.findByIds(ids);
+			return ResponseEntity.ok(cards);
+		}
+		
+		return ResponseEntity.noContent().build();
+		
+	}
+	
 }
